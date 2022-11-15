@@ -48,4 +48,8 @@ export default {
   build: {
     transpile: [/^axios/],
   },
+  loading: {
+    color: 'blue',
+    height: '5px'
+  }
 }

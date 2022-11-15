@@ -1,8 +1,10 @@
 import axios from 'axios'
+import { mutationTree, actionTree } from 'typed-vuex'
+
 import {
-  Actions,
+  // Actions,
   MediaStackResponse,
-  Mutations,
+  // Mutations,
   News,
 } from '~/types/mediaStack.type'
 
@@ -14,17 +16,35 @@ export const state = {
   news: null,
 }
 
-export const mutations: Mutations = {
+// export const mutations: Mutations = {
+//   setNews(state, payload) {
+//     state.news = payload
+//   },
+// }
+
+// export const actions: Actions = {
+//   async GET_ALL_NEWS({ commit }) {
+//     const params = { access_key }
+//     const res = await api.get<MediaStackResponse<News[]>>('/news', { params })
+//     commit('setNews', res.data.data)
+//     return res.data.data
+//   },
+// }
+
+export const mutations = mutationTree(state, {
   setNews(state, payload) {
     state.news = payload
   },
-}
+})
 
-export const actions: Actions = {
-  async GET_ALL_NEWS({ commit }) {
-    const params = { access_key }
-    const res = await api.get<MediaStackResponse<News[]>>('/news', { params })
-    commit('setNews', res.data.data)
-    return res.data.data
-  },
-}
+export const actions = actionTree(
+  { state, mutations },
+  {
+    async GET_ALL_NEWS({ commit }) {
+      const params = { access_key }
+      const res = await api.get<MediaStackResponse<News[]>>('/news', { params })
+      commit('setNews', res.data.data)
+      return res.data.data
+    },
+  }
+)
